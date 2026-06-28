@@ -1,2 +1,2 @@
 # ecommerce-backend
-E-commerce Backend built with Java, Spring Boot, Spring Security, JWT, and MySQL
+Scalable E-commerce Backend Application built using Java, Spring Boot, Spring Security, JPA and MySQL.
