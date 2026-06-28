@@ -1,6 +1,10 @@
 package com.mybasket.app.entity;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.hibernate.query.sql.internal.ParameterRecognizerImpl;
 
 import java.util.ArrayList;
@@ -8,6 +12,10 @@ import java.util.List;
 
 @Entity
 @Table(name = "my-basket-orders")
+@NoArgsConstructor
+@AllArgsConstructor
+@Getter
+@Setter
 public class Order {
 
     @Id

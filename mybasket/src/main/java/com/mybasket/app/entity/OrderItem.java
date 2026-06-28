@@ -2,9 +2,17 @@ package com.mybasket.app.entity;
 
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
 @Table(name = "my-basket-order-items")
+@NoArgsConstructor
+@AllArgsConstructor
+@Getter
+@Setter
 public class OrderItem {
 
 

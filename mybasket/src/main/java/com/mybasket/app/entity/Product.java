@@ -26,6 +26,23 @@ public class Product extends BaseEntity{
     private boolean outOfstock;
     private String imageUrl;
 
+    private Long categoryId;
+
+    public Set<Category> getCategories() {
+        return categories;
+    }
+
+    public void setCategories(Set<Category> categories) {
+        this.categories = categories;
+    }
+
+    public Long getCategoryId() {
+        return categoryId;
+    }
+
+    public void setCategoryId(Long categoryId) {
+        this.categoryId = categoryId;
+    }
 
     @ManyToMany
     private Set<Category> categories=new LinkedHashSet<>();

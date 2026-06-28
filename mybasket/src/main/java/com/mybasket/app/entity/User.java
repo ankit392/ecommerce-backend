@@ -1,6 +1,7 @@
 package com.mybasket.app.entity;
 
 
+import com.mybasket.app.security.ROLE;
 import jakarta.persistence.*;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.SQLRestriction;
@@ -21,6 +22,27 @@ public class User extends BaseEntity {
     @Column(name = "jpa_user_id")
     private int userid;
 
+    private boolean isEnable=true;
+
+    public ROLE getRole() {
+        return role;
+    }
+
+    public void setRole(ROLE role) {
+        this.role = role;
+    }
+
+    @Enumerated(EnumType.STRING)
+    private ROLE role=ROLE.ROLE_NORMAL;
+
+    public boolean isEnable() {
+        return isEnable;
+    }
+
+    public void setEnable(boolean enable) {
+        isEnable = enable;
+    }
+
     private String name;
 
     @Column(unique = true)
@@ -35,7 +57,7 @@ public class User extends BaseEntity {
 
 
     @OneToMany(mappedBy = "user",fetch = FetchType.LAZY,
-            cascade = CascadeType.ALL
+            cascade = CascadeType.ALL,orphanRemoval = true
     )
     private Set<Address> address=new HashSet<>();
 

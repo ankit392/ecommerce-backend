@@ -2,18 +2,15 @@ package com.mybasket.app.exception;
 
 
 import com.mybasket.app.dto.ErrorResponse;
-import com.mybasket.app.dto.ValidationErrorResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.FieldError;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
-import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.logging.ErrorManager;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
@@ -55,6 +52,17 @@ public class GlobalExceptionHandler {
 
 
     }
+
+    @ExceptionHandler(BadCredentialsException.class)
+    public ResponseEntity<ErrorResponse> handleBadCredentialsException(BadCredentialsException ex){
+
+        ErrorResponse errorResponse = new ErrorResponse(ex.getMessage(), HttpStatus.UNAUTHORIZED);
+        return new ResponseEntity<>(errorResponse,HttpStatus.UNAUTHORIZED);
+
+
+    }
+
+
 
 
 

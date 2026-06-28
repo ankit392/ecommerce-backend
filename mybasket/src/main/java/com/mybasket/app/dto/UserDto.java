@@ -1,5 +1,6 @@
 package com.mybasket.app.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.mybasket.app.validations.ValidImageUrl;
 import jakarta.persistence.Column;
 import jakarta.validation.constraints.Email;
@@ -34,6 +35,7 @@ public class UserDto {
             regexp = "^.{8,}$",
             message = "Password must be at least 8 characters long"
     )
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
 
     @ValidImageUrl

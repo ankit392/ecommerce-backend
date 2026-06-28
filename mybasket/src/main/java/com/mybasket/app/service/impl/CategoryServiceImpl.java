@@ -30,7 +30,7 @@ public class CategoryServiceImpl implements CategoryService {
         Category categoryEntity = modelMapper.map(categoryDto, Category.class);
 
         Category savedCategoryEntity = categoryRepository.save(categoryEntity);
-        // entity->dto
+
 
         return  modelMapper.map(savedCategoryEntity,CategoryDto.class);
 

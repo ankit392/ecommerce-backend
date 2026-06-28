@@ -6,8 +6,10 @@ import com.mybasket.app.repository.ProductRepository;
 import com.mybasket.app.service.ProductService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -29,10 +31,16 @@ public class ProductController {
 
 
 
-    @GetMapping
-    public List<ProductDto> getProducts(){
 
-        List<ProductDto> all = productService.getAll();
+    @GetMapping
+    public Page<ProductDto> getProducts(
+         @RequestParam(value = "page",defaultValue = "0")   int page,
+        @RequestParam(value = "size",defaultValue = "10")    int size,
+                @RequestParam(value = "sortBy",defaultValue = "productId") String sortBy
+
+    ){
+
+        Page<ProductDto> all = productService.getAll(page, size,sortBy);
 
         return all;
     }
@@ -47,6 +55,7 @@ public class ProductController {
      }
 
      //create product
+     //@PreAuthorize("hasRole('ADMIN')")
     @PostMapping
     public ResponseEntity<ProductDto> createProduct(@Valid @RequestBody ProductDto productdto){
 
@@ -58,6 +67,7 @@ public class ProductController {
 
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/{productId}")
     public ResponseEntity<ProductDto> updateProduct(@PathVariable("productId") Long id,@RequestBody ProductDto productto){
 
@@ -69,11 +79,23 @@ public class ProductController {
     }
 
 
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/{productId}")
     public ResponseEntity<Void> deleteProduct(@PathVariable long productId ){
 
         productService.delete(productId);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+
+    }
+
+    //getproductBycategory
+
+    @GetMapping("/category/{categoryid}")
+    public ResponseEntity<List<ProductDto>> getProductByCategory(@PathVariable Long categoryid){
+
+        List<ProductDto> productDtos = productService.getproductBycategory(categoryid);
+
+      return new ResponseEntity<>(productDtos,HttpStatus.OK);
 
     }
 

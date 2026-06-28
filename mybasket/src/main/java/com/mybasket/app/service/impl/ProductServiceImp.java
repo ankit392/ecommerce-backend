@@ -1,15 +1,23 @@
 package com.mybasket.app.service.impl;
 
 import com.mybasket.app.dto.ProductDto;
+import com.mybasket.app.entity.Category;
 import com.mybasket.app.entity.Product;
+import com.mybasket.app.exception.ResourceNotFoundException;
+import com.mybasket.app.repository.CategoryRepository;
 import com.mybasket.app.repository.ProductRepository;
 import com.mybasket.app.service.ProductService;
 import lombok.RequiredArgsConstructor;
 
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Set;
 
 
 @Service
@@ -18,15 +26,27 @@ public class ProductServiceImp implements ProductService {
 
     private final ProductRepository productRepository;
     private final ModelMapper modelMapper;
-
+    private final CategoryRepository categoryRepository;
 
     @Override
-    public List<ProductDto> getAll() {
+    public Page<ProductDto> getAll(int page,int size,String sortBy) {
 
 
-        List<Product> all = productRepository.findAll();
-        return all.stream()
-                .map((p)->modelMapper.map(p,ProductDto.class)).toList();
+        //sort
+        Sort sort=Sort.by(sortBy).ascending();
+
+        //pagination parent hold child ref
+       Pageable pageable = PageRequest.of(page,size,sort);
+
+
+
+        Page<Product> pageProducts = productRepository.findAll(pageable);
+       // return pageProducts;
+
+
+//        List<Product> all = productRepository.findAll();
+         return pageProducts
+           .map((p)->modelMapper.map(p,ProductDto.class));
     }
 
     @Override
@@ -43,6 +63,16 @@ public class ProductServiceImp implements ProductService {
 
         Product productEntity = modelMapper.map(productDto, Product.class);
 
+        Long categoryId = productEntity.getCategoryId();
+
+        if (categoryId != null && categoryId > 0) {
+
+            Category category = categoryRepository.findById(categoryId)
+                    .orElseThrow(() -> new RuntimeException("Category not found"));
+
+            productEntity.getCategories().add(category);
+            System.out.println(category.getProducts().size());
+        }
 
         Product saveproductEntity = productRepository.save(productEntity);
 
@@ -78,6 +108,18 @@ public class ProductServiceImp implements ProductService {
 
         productRepository.delete(product);
 
+
+    }
+
+    @Override
+    public List<ProductDto> getproductBycategory(Long categoryId) {
+
+        Category cayegoryFound = categoryRepository.findById(categoryId).orElseThrow(() -> new ResourceNotFoundException("cayegory not found"));
+
+        Set<Product> products = cayegoryFound.getProducts();
+
+        return products.stream()
+                .map(item->modelMapper.map(item,ProductDto.class)).toList();
 
     }
 }

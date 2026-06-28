@@ -1,12 +1,22 @@
 package com.mybasket.app.entity;
 
 import jakarta.persistence.*;
+import lombok.*;
 
 import java.util.LinkedHashSet;
 import java.util.Set;
 
+
+
+
 @Entity
-@Table(name = "my_basket_category ")
+@Table(name = "my_basket_category")
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@Getter
+@Setter
+
 public class Category {
 
     @Id
@@ -16,8 +26,18 @@ public class Category {
     private String title;
     private  String imageUrl;
 
+
+
     @ManyToMany(mappedBy = "categories")
     private Set<Product> products=new LinkedHashSet<>();
+
+    public Set<Product> getProducts() {
+        return products;
+    }
+
+    public void setProducts(Set<Product> products) {
+        this.products = products;
+    }
 
     public Long getId() {
         return id;

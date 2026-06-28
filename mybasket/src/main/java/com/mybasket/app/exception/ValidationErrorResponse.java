@@ -1,4 +1,4 @@
-package com.mybasket.app.dto;
+package com.mybasket.app.exception;
 
 public record ValidationErrorResponse(
         String filed,

@@ -1,6 +1,7 @@
 package com.mybasket.app.dto;
 
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.GeneratedValue;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
@@ -35,4 +36,7 @@ public class ProductDto {
     private boolean live;
     private boolean outOfstock;
     private String imageUrl;
+
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    private Long categoryId;
 }
