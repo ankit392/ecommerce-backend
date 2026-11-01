@@ -88,7 +88,7 @@ try{
 
 
 }catch (ExpiredJwtException ex){
-
+    ex.printStackTrace();
     ex.printStackTrace();
 }catch (MalformedJwtException ex){
     ex.printStackTrace();
