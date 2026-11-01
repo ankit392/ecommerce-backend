@@ -31,11 +31,15 @@ public class UserServiecImpl implements UserService {
     public UserDto createUser(UserDto userDto) {
 
         User user = modelMapper.map(userDto, User.class);
+
+        User user1 = new User();
+
         //password encode
 
         user.setPassword(passwordEncoder.encode(user.getPassword()));
 
         User savedUser = userRepository.save(user);
+
         return modelMapper.map(savedUser, UserDto.class);
     }
 
@@ -64,6 +68,7 @@ public class UserServiecImpl implements UserService {
                 .orElseThrow(() -> new ResourceNotFoundException("User not found with id: " + userId));
         return modelMapper.map(user, UserDto.class);
     }
+
 
     public UserDto updateUser(Integer userId, UserDto userDto) {
         User user = userRepository.findById(userId).orElseThrow(()->new ResourceNotFoundException("not found"));

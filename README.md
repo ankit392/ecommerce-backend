@@ -10,8 +10,8 @@ A production-style E-commerce Backend Application built using Java, Spring Boot,
 - Shopping Cart Management
 - Order Management
 - Payment Module
-- Address Management
-- RESTful API Design
+- Address `Management
+-` RESTful API Design
 - Pagination & Sorting
 - Input Validation
 - Global Exception Handling

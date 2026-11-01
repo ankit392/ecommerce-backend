@@ -12,11 +12,14 @@ import java.time.LocalDateTime;
 
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener.class)
-public abstract class BaseEntity {
+public abstract class BaseEntity {//ADD ABSTRACT SO NO DIRECT OBJ CREATION
 
-    @Column(nullable = false)
+    // soft delete
+    @Column(nullable = false)  // ONLY T OR F
     private boolean deleted=false;
 
+
+    // Auditing
     @CreatedDate
     @Column(updatable = false)
     private LocalDateTime createdAt;

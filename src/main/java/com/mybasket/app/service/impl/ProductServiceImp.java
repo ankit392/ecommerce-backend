@@ -28,6 +28,7 @@ public class ProductServiceImp implements ProductService {
     private final ModelMapper modelMapper;
     private final CategoryRepository categoryRepository;
 
+
     @Override
     public Page<ProductDto> getAll(int page,int size,String sortBy) {
 
@@ -35,7 +36,7 @@ public class ProductServiceImp implements ProductService {
         //sort
         Sort sort=Sort.by(sortBy).ascending();
 
-        //pagination parent hold child ref
+        //pagination parent hold child ref & overloaded method, of static method
        Pageable pageable = PageRequest.of(page,size,sort);
 
 

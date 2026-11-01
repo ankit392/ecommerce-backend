@@ -13,7 +13,7 @@ import java.util.Set;
 @Entity
 @Table(name="my-basket-users")
 @SQLDelete(sql="update `my-basket-users` set deleted=true where jpa_user_id=? ")
-@SQLRestriction("deleted=false")
+@SQLRestriction("deleted=false")  // ONLY FALSE FETCH
 
 public class User extends BaseEntity {
 
@@ -22,15 +22,20 @@ public class User extends BaseEntity {
     @Column(name = "jpa_user_id")
     private int userid;
 
+    // create enable and getter setter for userDetails
     private boolean isEnable=true;
 
+
+    //getter
     public ROLE getRole() {
         return role;
     }
 
+    //setter
     public void setRole(ROLE role) {
         this.role = role;
     }
+
 
     @Enumerated(EnumType.STRING)
     private ROLE role=ROLE.ROLE_NORMAL;

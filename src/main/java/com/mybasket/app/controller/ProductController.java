@@ -1,36 +1,33 @@
 package com.mybasket.app.controller;
 
+import com.mybasket.app.entity.FileMetaData;
 import com.mybasket.app.dto.ProductDto;
-import com.mybasket.app.entity.Product;
-import com.mybasket.app.repository.ProductRepository;
+import com.mybasket.app.service.FileStorageService;
 import com.mybasket.app.service.ProductService;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 @RestController
 @RequestMapping("/products")
+@RequiredArgsConstructor
 public class ProductController {
 
 
-     private ProductService productService;
+     private final ProductService productService;
 
-    public ProductController(ProductService productService) {
-        this.productService = productService;
-    }
+    private final FileStorageService fileStorageService;
+
 
     //resource:product
-
-
-
-
 
     @GetMapping
     public Page<ProductDto> getProducts(
@@ -55,11 +52,12 @@ public class ProductController {
      }
 
      //create product
-     //@PreAuthorize("hasRole('ADMIN')")
+     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping
     public ResponseEntity<ProductDto> createProduct(@Valid @RequestBody ProductDto productdto){
 
         ProductDto product1 = productService.createProduct(productdto);
+
 
 
         return new ResponseEntity<>(product1, HttpStatus.CREATED);
@@ -79,7 +77,7 @@ public class ProductController {
     }
 
 
-    @PreAuthorize("hasRole('ADMIN')")
+   @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/{productId}")
     public ResponseEntity<Void> deleteProduct(@PathVariable long productId ){
 
@@ -97,6 +95,28 @@ public class ProductController {
 
       return new ResponseEntity<>(productDtos,HttpStatus.OK);
 
+    }
+
+
+
+    // Controller method to upload Image
+
+    @PreAuthorize("hasRole('ADMIN')")
+    @PostMapping("/image")
+    public ResponseEntity<FileMetaData> uploadProductImage(
+
+            @RequestParam("productImage")MultipartFile  file
+
+            ) throws IOException {
+
+
+
+//        System.out.println(file.getOriginalFilename());
+        FileMetaData fileMetaData = fileStorageService.uploadFile(file);
+
+
+
+        return ResponseEntity.ok(fileMetaData);
     }
 
 

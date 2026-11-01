@@ -23,6 +23,7 @@ public class UserController {
 
     private  final UserService userService;
 
+
     @PostMapping
     public ResponseEntity<UserDto> createUser(@Valid @RequestBody UserDto userDto){
 
@@ -36,8 +37,8 @@ public class UserController {
         return new ResponseEntity<>(userService.getAllUsers(),HttpStatus.OK);
     }
 
-
-   @GetMapping("{userId}")
+    @PreAuthorize("hasRole('NORMAL')")
+   @GetMapping("/{userId}")
     public ResponseEntity<UserDto> getUser(@PathVariable Integer userId){
        return new ResponseEntity<>(userService.getUser(userId), HttpStatus.OK);
    }

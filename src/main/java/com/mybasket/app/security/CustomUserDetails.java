@@ -19,30 +19,32 @@ public class CustomUserDetails implements UserDetails {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-
+ // user info
     private User user;
 
     public CustomUserDetails(User user) {
         this.user = user;
     }
 
-    //roles based authentication
 
+
+    //roles based authentication
     //post->  /products ROLE_ADMIN
     // get /products ROLE_USER
     // delete /products/{productId}  ROLE_ADMIN
-
-
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
 
         ROLE role = user.getRole();
+
+        // convert Role to List type of Collection who extends GrantedAuthority
 
         Collection roleCollection = new ArrayList();
         roleCollection.add(new SimpleGrantedAuthority(role.toString()));
 
         return roleCollection;
     }
+
 
     @Override
     public @Nullable String getPassword() {
@@ -51,6 +53,8 @@ public class CustomUserDetails implements UserDetails {
 
     @Override
     public String getUsername() {
+
+        // own logic username-> userEmail
         return user.getEmail();
     }
 
@@ -74,6 +78,8 @@ public class CustomUserDetails implements UserDetails {
         return user.isEnable();
     }
 
+
+    // getter setter
     public User getUser() {
         return user;
     }

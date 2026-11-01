@@ -15,7 +15,8 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
 @SpringBootApplication
 @EnableJpaAuditing
-public class MyBasketApp implements CommandLineRunner {
+public class
+MyBasketApp implements CommandLineRunner {
 
     @Autowired
     private UserService userService;
@@ -43,17 +44,22 @@ public class MyBasketApp implements CommandLineRunner {
 
 //        Product product = new Product();
 //
-//        product.setTitle("iphone 17");
+//        product.setTitle("one plus 17");
 //        product.setDescription("new phone");
 //        product.setPrice(677.99);
 //        product.setOutOfstock(false);
 //        productRepository.save(product);
 
+//        System.out.println("saved oneplus ");
 //        productRepository.findByTitle("iphone 17").forEach(p -> System.out.println(p.getDescription() + "" + p.getTitle()));
 //
 //        productRepository.findByProductIdAndTitle(4, "iphone 17")
 //                .ifPresentOrElse(
-//                        p -> System.out.println(p.getDescription() + " " + p.getTitle()),
+
+//                        p -> System.out.println(p.getDescription() + " " + p.getTitle())
+//
+//                        ,
+
 //                        () -> System.out.println("not found")
 //                );
 
